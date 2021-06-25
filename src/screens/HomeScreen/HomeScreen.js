@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchPosts, loadMorePosts } from "../../reducers";
 
-import { setData, getData } from "../../helper";
+// import { setData, getData } from "../../helper";
 
 export const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -21,13 +21,7 @@ export const HomeScreen = ({ navigation }) => {
   // Fetching
   useEffect(() => {
     const fetching = async () => {
-      const data = await getData("hoi");
-      console.log("HomeScreen ~ data", data);
-
       try {
-        // const data = await getData("hoi");
-        // console.log("HomeScreen ~ data", data);
-
         await dispatch(fetchPosts());
       } catch (err) {
         alert(err);
@@ -38,22 +32,11 @@ export const HomeScreen = ({ navigation }) => {
 
   //    Events
   const onChange = async () => {
-    await dispatch(loadMorePosts());
+    const obj = { id: 1, title: "From home page with love", name: "T-shirt" };
+    navigation.navigate("Root", obj);
   };
 
-  // Render FlatList item
-  const renderItem = ({ item, index }) => {
-    return (
-      <View style={styles.row}>
-        <Text style={styles.title}>
-          {parseInt(index) + 1}
-          {". "}
-          {item.title}
-        </Text>
-        <Text style={styles.description}>{item.description}</Text>
-      </View>
-    );
-  };
+
 
   // Render
   if (isLoading) {
@@ -64,13 +47,9 @@ export const HomeScreen = ({ navigation }) => {
     );
   } else {
     return (
-      <View style={{ flex: 1, backgroundColor: "#F5F5F5", paddingTop: 20 }}>
-        <FlatList
-          data={posts}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => `flat_${index}`}
-        />
-        <Button onPress={onChange} title="Load more" color="#841584" />
+      <View style={{ flex: 1, backgroundColor: "#F5F5F5", paddingTop: 100 }}>
+        <Button onPress={onChange} title="Go to" />
+        <Button onPress={onChange} title="Go to 2" />
       </View>
     );
   }
@@ -82,21 +61,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-  },
-
-  row: {
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-  },
-
-  title: {
-    fontSize: 15,
-    fontWeight: "600",
-  },
-
-  description: {
-    marginTop: 5,
-    fontSize: 14,
-  },
+  }
 });
