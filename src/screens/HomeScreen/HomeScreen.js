@@ -1,28 +1,33 @@
-import React, { useEffect } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Text,
-  ActivityIndicator,
-  Button,
-} from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { Header, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/Ionicons";
+
+import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-
-import { fetchPosts, loadMorePosts } from "../../reducers";
+import { fetchSongs } from "../../reducers";
 
 // import { setData, getData } from "../../helper";
+import TabsView from "./TabsView";
+import ListSong from "./ListSong";
+
+const Page = styled(View)`
+  margin-top: 20px;
+`;
 
 export const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { isLoading, posts } = useSelector((state) => state.post);
 
-  // Fetching
+  const [keySearch, setKeySearch] = useState("");
+  const [tabSelected, setTabSelected] = useState("all");
+  const { isLoading, songs } = useSelector((state) => state.song);
+
   useEffect(() => {
     const fetching = async () => {
       try {
-        await dispatch(fetchPosts());
+        await dispatch(fetchSongs());
       } catch (err) {
         alert(err);
       }
@@ -31,14 +36,19 @@ export const HomeScreen = ({ navigation }) => {
   }, []);
 
   //    Events
-  const onChange = async () => {
-    const obj = { id: 1, title: "From home page with love", name: "T-shirt" };
-    navigation.navigate("Root", obj);
-  };
+  // const onChange = async () => {
+  //   const obj = { id: 1, title: "From home page with love", name: "T-shirt" };
+  //   navigation.navigate("Song", obj);
+  // };
 
+  const handleChangeTab = useCallback((e) => {
+    setTabSelected(e);
+  }, []);
 
+  const handleOpenSong = useCallback(({ song, position }) => {
+    navigation.navigate("Song", { song, position });
+  });
 
-  // Render
   if (isLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
@@ -47,9 +57,41 @@ export const HomeScreen = ({ navigation }) => {
     );
   } else {
     return (
-      <View style={{ flex: 1, backgroundColor: "#F5F5F5", paddingTop: 100 }}>
-        <Button onPress={onChange} title="Go to" />
-        <Button onPress={onChange} title="Go to 2" />
+      <View style={{ flex: 1, backgroundColor: "#343a40" }}>
+        <Page />
+        <View style={{ flex: 1, backgroundColor: "#343a40" }}>
+          <Text>{keySearch}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 5,
+              marginHorizontal: 10,
+              justifyContent: "space-between",
+              paddingVertical: 10,
+              marginBottom: 10,
+            }}
+          >
+            <Input
+              placeholder="Tìm kiếm bài hát"
+              color="white"
+              leftIcon={
+                <Icon
+                  name="search"
+                  size={24}
+                  color="#517fa4"
+                  style={{ marginRight: 10 }}
+                />
+              }
+              onChangeText={(value) => setKeySearch(value)}
+            />
+          </View>
+          <TabsView
+            tabSelected={tabSelected}
+            handleChangeTab={handleChangeTab}
+          />
+
+          <ListSong songs={songs} handleOpenSong={handleOpenSong} />
+        </View>
       </View>
     );
   }
@@ -61,5 +103,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-  }
+  },
 });

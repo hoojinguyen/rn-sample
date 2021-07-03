@@ -1,9 +1,9 @@
 import {
-  FETCH_LOADING,
-  FETCH_SUCCESS,
-  FETCH_FAILURE,
-  LOAD_MORE,
-} from "./types";
+  POST_LOADING,
+  POST_FETCH_SUCCESS,
+  POST_FETCH_FAILURE,
+  POST_FETCH_LOAD_MORE,
+} from "./postActions";
 
 const initialState = {
   posts: [],
@@ -13,13 +13,13 @@ const initialState = {
 
 export const postReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_LOADING:
+    case POST_LOADING:
       return { ...state, isLoading: true };
-    case FETCH_FAILURE:
+    case POST_FETCH_FAILURE:
       return { ...state, isLoading: false };
-    case FETCH_SUCCESS:
+    case POST_FETCH_SUCCESS:
       return { ...state, isLoading: false, posts: [...action.posts] };
-    case LOAD_MORE:
+    case POST_FETCH_LOAD_MORE:
       const posts = state.posts.concat(action.posts);
       return { ...state, posts: [...posts] };
     default:

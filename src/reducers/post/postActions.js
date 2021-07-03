@@ -1,11 +1,9 @@
 import axios from "axios";
 
-import {
-  FETCH_LOADING,
-  FETCH_SUCCESS,
-  FETCH_FAILURE,
-  LOAD_MORE,
-} from "./types";
+export const POST_LOADING = "POST_LOADING";
+export const POST_FETCH_SUCCESS = "POST_FETCH_SUCCESS";
+export const POST_FETCH_FAILURE = "POST_FETCH_FAILURE";
+export const POST_FETCH_LOAD_MORE = "POST_FETCH_LOAD_MORE";
 
 import DATA_SAMPLE from "../../services/instructions";
 
@@ -15,20 +13,20 @@ const API_URL =
 export const fetchPosts = () => {
   return async (dispatch) => {
     dispatch({
-      type: FETCH_LOADING,
+      type: POST_LOADING,
     });
 
     await axios
       .get(API_URL)
       .then(({ data }) => {
         dispatch({
-          type: FETCH_SUCCESS,
+          type: POST_FETCH_SUCCESS,
           posts: data,
         });
       })
       .catch((err) => {
         dispatch({
-          type: FETCH_FAILURE,
+          type: POST_FETCH_FAILURE,
         });
         throw new Error(err);
       });
@@ -37,6 +35,6 @@ export const fetchPosts = () => {
 
 export const loadMorePosts = () => {
   return async (dispatch) => {
-    dispatch({ type: LOAD_MORE, posts: DATA_SAMPLE });
+    dispatch({ type: POST_FETCH_LOAD_MORE, posts: DATA_SAMPLE });
   };
 };

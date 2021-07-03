@@ -1,57 +1,41 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { AppLoading, Font } from 'expo';
-
+import { AppLoading, Font } from "expo";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 
-import { postReducer } from "./src/reducers";
+import { postReducer, songReducer } from "./src/reducers";
 
 import { AppNavigator } from "./src/navigation/AppNavigator";
 
 const rootReducer = combineReducers({
   post: postReducer,
+  song: songReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
-export default class App extends Component {
-  state = {
-    theme: null,
-    currentTheme: null,
-    isReady: false,
-  };
 
-  // changeTheme = (theme, currentTheme) => {
-  //   this.setState({ theme, currentTheme });
-  // };
+// export default class App extends Component {
 
-  async componentDidMount() {
-    await Font.loadAsync(
-      'antoutline',
-      // eslint-disable-next-line
-      require('@ant-design/icons-react-native/fonts/antoutline.ttf')
-    );
+//   render() {
+//     if (!isReady) {
+//       return <AppLoading />;
+//     } else {
+//       return (
+//         <Provider store={store}>
+//           <AppNavigator />
+//         </Provider>
+//       );
+//     }
+//   }
 
-    await Font.loadAsync(
-      'antfill',
-      // eslint-disable-next-line
-      require('@ant-design/icons-react-native/fonts/antfill.ttf')
-    );
-    // eslint-disable-next-line
-    this.setState({ isReady: true });
-  }
+// }
 
-  render() {
-    const { theme, currentTheme, isReady } = this.state;
-    if (!isReady) {
-      return <AppLoading />;
-    } else {
-      return (
-        <Provider store={store}>
-          <AppNavigator />
-        </Provider>
-      );
-    }
-  }
+export default function App() {
+  return (
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
+  );
 }
