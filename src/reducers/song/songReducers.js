@@ -6,6 +6,7 @@ import {
 } from "./songActions";
 
 const initialState = {
+  favoriteSongs: [],
   songs: [],
   song: null,
   isLoading: true,
@@ -18,7 +19,12 @@ export const songReducer = (state = initialState, action) => {
     case SONG_FETCH_FAILURE:
       return { ...state, isLoading: false };
     case SONG_FETCH_SUCCESS:
-      return { ...state, isLoading: false, songs: [...action.songs] };
+      return {
+        ...state,
+        isLoading: false,
+        songs: [...action.songs],
+        favoriteSongs: [...action.favoriteSongs],
+      };
     case SONG_FETCH_LOAD_MORE:
       const songs = state.songs.concat(action.songs);
       return { ...state, songs: [...songs] };

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-export default function TabsView({ tabSelected, handleChangeTab }) {
+export const TabsView = ({ tabSelected, handleChangeTab }) => {
   return (
     <View
       style={{
@@ -18,6 +18,7 @@ export default function TabsView({ tabSelected, handleChangeTab }) {
           style={{
             color: tabSelected == "all" ? "black" : "white",
             fontWeight: tabSelected == "all" ? "bold" : "normal",
+            fontSize: 15,
           }}
         >
           {" "}
@@ -29,6 +30,7 @@ export default function TabsView({ tabSelected, handleChangeTab }) {
           style={{
             color: tabSelected == "artist" ? "black" : "white",
             fontWeight: tabSelected == "artist" ? "bold" : "normal",
+            fontSize: 15,
           }}
         >
           {" "}
@@ -40,6 +42,7 @@ export default function TabsView({ tabSelected, handleChangeTab }) {
           style={{
             color: tabSelected == "favorite" ? "black" : "white",
             fontWeight: tabSelected == "favorite" ? "bold" : "normal",
+            fontSize: 15,
           }}
         >
           {" "}
@@ -48,4 +51,4 @@ export default function TabsView({ tabSelected, handleChangeTab }) {
       </TouchableOpacity>
     </View>
   );
-}
+};

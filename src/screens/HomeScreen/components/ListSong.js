@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-export default function ListSong({ songs, handleOpenSong }) {
+export const ListSong = ({ songs, handleOpenSong }) => {
   return (
     <View
       style={{
@@ -30,12 +30,12 @@ export default function ListSong({ songs, handleOpenSong }) {
                 <Text
                   numberOfLines={2}
                   style={{
-                    paddingHorizontal: 9,
+                    paddingHorizontal: 12,
                     flex: 3,
                     color: "white",
                   }}
                 >
-                  {item.title.slice(4)}
+                  {item.title.slice(0)}
                 </Text>
                 <Icon
                   name="play-circle-outline"
@@ -64,4 +64,4 @@ export default function ListSong({ songs, handleOpenSong }) {
       )}
     </View>
   );
-}
+};
