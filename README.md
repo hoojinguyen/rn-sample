@@ -1,4 +1,4 @@
-# react-native-boilerplate
+# rn-sample
 
 ## Installation
 ```
